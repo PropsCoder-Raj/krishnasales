@@ -1,0 +1,60 @@
+<ion-content>
+    <div class="app-main__inner" style="background: #f3f6f9;">
+        <div class="row" style="margin-bottom: 20px;">
+            <h1 class="m-0 text-dark">Order History Details</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Order ID #{{orderData.Order_Id}}
+                    </div>
+                    <div class="card-body">
+                        <b>Customer Name:</b> {{orderData.Customer_Name}}<br>
+                        <b>Employee Name:</b> {{orderData.Employee_Name}}<br>
+                        <b>Order Date:</b> {{orderData.Order_Date_Format}}<br>
+                        <b>Amount:</b> Rs. {{orderData.Amount}}<br>
+                        <b>Status:</b> &nbsp;&nbsp;
+                        <div *ngIf="orderData.Status === 'Pending'" class="badge badge-pill badge_warning">&nbsp;</div>
+                        <div *ngIf="orderData.Status === 'Cancel'" class="badge badge-pill badge_danger">&nbsp;</div>
+                        <div *ngIf="orderData.Status === 'Confirm'" class="badge badge-pill badge_success">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Item List &nbsp;&nbsp;&nbsp;<i *ngIf="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="card-body">
+                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Sr.No.</th>
+                                    <th>Item No</th>
+                                    <th>Item Name</th>
+                                    <th>Trade Price</th>
+                                    <th>Discount</th>
+                                    <th>Vat</th>
+                                    <th>Availability</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of itemData; let i = index">
+                                    <th>{{i + 1}}</th>
+                                    <th>{{item[0].Item_Id}}</th>
+                                    <th>{{item[0].Item_Name}}</th>
+                                    <th>Rs. {{item[0].Unit_Price}}</th>
+                                    <th>{{item[0].Discount}} %</th>
+                                    <th>{{item[0].Vat}} %</th>
+                                    <th>
+                                        <div *ngIf="item[0].Stock_State === 'In Stock'" class="badge badge-pill badge_primary">In Stock</div>
+                                        <div *ngIf="item[0].Stock_State === 'Out Of Stock'" class="badge badge-pill badge_danger">Out of Stock</div>
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

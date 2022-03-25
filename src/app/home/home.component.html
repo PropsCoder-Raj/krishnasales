@@ -1,0 +1,288 @@
+<ion-content>
+    <div class="app-main__inner" style="background: #f3f6f9;">
+        <div class="app-page-title">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon" style="background: transparent;box-shadow: unset;">
+                        <i class="pe-7s-rocket " style="color: #8950fc;">
+                        </i>
+                    </div>
+                    <div style="color: black;">Dashboard
+                    </div>
+                </div>
+                <div class="page-title-actions">
+                    <button class="btn mr-3 btn_danger" [routerLink]="['/order-history']">Order Report</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="loading" class="row">
+            <i class="fa fa-circle-o-notch fa-spin"></i>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-body">
+                        <div class="row" style="padding: 7px;">
+                            <div class="col">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Total Employees
+                                            <div class="ml-auto badge bg-dark" style="color: white;font-size: xx-large;">{{totalEmp}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Total Customers
+                                            <div class="ml-auto badge bg-dark" style="color: white;font-size: xx-large;">{{totalCustomer}}</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Active Employees
+                                            <div class="ml-auto badge bg_success" style="color: white;font-size: xx-large;">{{activeEmp}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Active Customers
+                                            <div class="ml-auto badge bg_success" style="color: white;font-size: xx-large;">{{activeCustomer}}</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-body">
+                        <div class="row" style="padding: 7px;">
+                            <div class="col">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Total Orders
+                                            <div class="ml-auto badge bg_primary" style="color: white;font-size: xx-large;">{{totalOrders}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Total Pending Orders
+                                            <div class="ml-auto badge bg_warning" style="color: white;font-size: xx-large;">{{pendinngOrders}}</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Total Confirmed Order
+                                            <div class="ml-auto badge bg_success" style="color: white;font-size: xx-large;">{{confirmOrders}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link" style="text-decoration: none;font-size: 1.25rem!important;color: black;font-weight: 600!important;">
+                                            Total Cancelled Orders
+                                            <div class="ml-auto badge bg_danger" style="color: white;font-size: xx-large;">{{cancelOrder}}</div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Employees</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text_primary"><span>{{totalEmp}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Customers</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text_primary"><span>{{totalCustomer}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Active Employees</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text_primary"><span>{{activeEmp}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Active Customers</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text_primary"><span>{{activeCustomer}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Orders</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers"><span>{{totalOrders}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Pending Orders</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text_warning"><span>{{pendinngOrders}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Confirmed Order</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text_success"><span>{{confirmOrders}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="white_card mb-3 widget-content">
+                    <div class="widget-content-wrapper">
+                        <div class="widget-content-left">
+                            <div class="widget-heading">Total Cancelled Orders</div>
+                        </div>
+                        <div class="widget-content-right">
+                            <div class="widget-numbers text_danger"><span>{{cancelOrder}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Employee Report &nbsp;&nbsp;&nbsp;<i *ngIf="loadingEmp" class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" #dataTable>
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Employee Name</th>
+                                        <th class="text-center">Customers</th>
+                                        <th class="text-center">Pending</th>
+                                        <th class="text-center">Confirmed</th>
+                                        <th class="text-center">Cancelled</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of empdata; let i = index">
+                                        <th>{{item.Name}}</th>
+                                        <th class="text-center">{{item[0].tCustomer}}</th>
+                                        <th class="text-center">{{item[0].pOrder}}</th>
+                                        <th class="text-center">{{item[0].cOrder}}</th>
+                                        <th class="text-center">{{item[0].c1Order}}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Order Progress &nbsp;&nbsp;&nbsp;<i *ngIf="loadingOrder" class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" #dataTable1>
+                                <thead>
+                                    <tr>
+                                        <th>Order Id</th>
+                                        <th>Customer Name</th>
+                                        <th>Order Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Progress</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of orders; let i = index">
+                                        <th>Q - {{item.Order_Id}}</th>
+                                        <th>{{item.Name}}</th>
+                                        <th>{{item.Order_Date_Format}}</th>
+                                        <th>{{currency}} {{item.Amount}}</th>
+                                        <th>
+                                            <div *ngIf="item.Status === '0'" class="badge badge-pill badge_warning">Pending</div>
+                                            <div *ngIf="item.Status === '1'" class="badge badge-pill badge_success">Confirm</div>
+                                            <div *ngIf="item.Status === '2'" class="badge badge-pill badge_danger">Cancel</div>
+                                        </th>
+                                        <th>
+                                             <div class="text-left" *ngIf="item.Status === '0'">40%<span style="float: right;" class="hide-on-small-and-down">progress</span></div>
+                                            <div class="text-left" *ngIf="item.Status === '1'">100%<span style="float: right;" class="hide-on-small-and-down">progress</span></div>
+                                            <div class="text-left" *ngIf="item.Status === '2'">0%<span style="float: right;" class="hide-on-small-and-down">progress</span></div>
+                                            <div class="progress">
+                                                <div class="progress-bar  bg_warning" *ngIf="item.Status === '0'" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"></div>
+                                                <div class="progress-bar  bg_success" *ngIf="item.Status === '1'" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                                <div class="progress-bar  bg_danger" *ngIf="item.Status === '2'" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                            </div>
+                                        </th>
+                                        <th class="text-center">
+                                            <span class="text-muted" style="cursor: pointer;">
+                                                <i class="fa fa-eye text_primary" (click)="openEditModal(item)"></i>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

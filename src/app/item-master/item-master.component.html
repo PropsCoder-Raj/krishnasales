@@ -1,0 +1,162 @@
+<ion-content>
+    <div class="app-main__inner" style="background: #f3f6f9;">
+        <div class="app-page-title" style="background: #f3f6f9;">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon" style="background: transparent;box-shadow: unset;">
+                        <i class="pe-7s-copy-file " style="color: #8950fc;">
+                        </i>
+                    </div>
+                    <div style="color: black;">Item Master
+                    </div>
+                </div>
+                <div class="page-title-actions">
+                    <button class="btn mr-3 btn_primary" (click)="importOpen()" *ngIf="!importS && !createItemFlag && !edit_ID">Import CSV</button>
+                    <button class="btn mr-3 btn_primary" *ngIf="!createItemFlag && !importS && !edit_ID" (click)="createItemFlag = true">Create Item</button>
+                    <button class="btn btn-shadow mr-3 btn_warning" *ngIf="createItemFlag || importS || edit_ID" (click)="createItemFlag = false; clearEditParam(); importS = false">Back</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="importS">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add Item</h5>
+                        <form class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="">Select File</label>
+                                        <ion-input type="file" accept=".csv" #uploads (change)="selectWebFile($event)"></ion-input>
+                                        <!-- <input name="file" type="file" #uploads (change)="selectWebFile($event)" accept=".csv" class="form-control"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="mt-1 btn btn_primary" (click)="uploadExcel()">Import CSV</button>
+                            <button class="mt-1 btn btn-default" style="background: transparent;" (click)="importS = false;">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card" *ngIf="createItemFlag || edit_ID != ''">
+                    <div class="card-body">
+                        <h5 class="card-title" *ngIf="!edit_ID">Add Item</h5>
+                        <h5 class="card-title" *ngIf="edit_ID">Edit Item</h5>
+                        <form class="">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Item No.</label>
+                                        <input name="itemno" type="text" [(ngModel)]="itemno"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Item Name</label>
+                                        <input name="itemname" type="text" [(ngModel)]="itemname"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Trade Price</label>
+                                        <input name="unitprice" type="number" [(ngModel)]="tradeprice"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Discount (%)</label>
+                                        <input name="discount" type="number" [(ngModel)]="discount"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">VAT (%)</label>
+                                        <input name="vat" type="number" [(ngModel)]="vat" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label for="exampleSelect" class="">Stock State</label>
+                                        <select name="select" [(ngModel)]="stockS" class="form-control">
+                                            <option disabled="">Select one</option>
+                                            <option value="In Stock">In Stock</option>
+                                            <option value="Out Of Stock">Out Of Stock</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="mt-1 btn btn_primary" *ngIf="!edit_ID" (click)="createItem()">Submit</button>
+                            <button class="mt-1 btn btn_primary" *ngIf="edit_ID" (click)="updateItem()">Update</button>
+                            <button class="mt-1 btn btn-default" style="background: transparent;" (click)="createItemFlag = false; clearEditParam()">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Item Master List &nbsp;&nbsp;&nbsp;<i *ngIf="loading"class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" #dataTable>
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>Item No</th>
+                                        <th>Item Name</th>
+                                        <th>Trade Price</th>
+                                        <th>Discount</th>
+                                        <th>Vat</th>
+                                        <th>Availability</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of itemdata; let i = index">
+                                        <th>{{i + 1}}</th>
+                                        <th>{{item.Item_Id}}</th>
+                                        <th>{{item.Item_Name}}</th>
+                                        <th>{{currency}} {{item.Unit_Price}}</th>
+                                        <th>{{item.Discount}} %</th>
+                                        <th>{{item.Vat}} %</th>
+                                        <th>
+                                            <div *ngIf="item.Stock_State === 'In Stock'" class="badge badge-pill badge_primary">In Stock</div>
+                                            <div *ngIf="item.Stock_State === 'Out Of Stock'" class="badge badge-pill badge_danger">Out of Stock</div>
+                                        </th>
+                                        <th class="text-center">
+                                            <span class="text-muted" style="cursor: pointer;">
+                                                <i class="fa fa-pen" style="color: black;" (click)="setEditParam(item.Id, item.Item_Id, item.Item_Name, item.Unit_Price, item.Discount, item.Vat, item.Stock_State)"></i>
+                                            </span>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <span class="text-muted" style="cursor: pointer;">
+                                                <i class="fa fa-trash text_danger" (click)="deleteItem(item.Id)"></i>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

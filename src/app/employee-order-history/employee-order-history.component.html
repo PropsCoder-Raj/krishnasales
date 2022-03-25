@@ -1,0 +1,71 @@
+<ion-content>
+    <div class="app-main__inner" style="background: #f3f6f9;">
+        <div class="app-page-title" style="background: #f3f6f9;">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon" style="background: transparent;box-shadow: unset;">
+                        <i class="pe-7s-clock " style="color: #8950fc;">
+                        </i>
+                    </div>
+                    <div style="color: black;">Users Order History
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Order Progress &nbsp;&nbsp;&nbsp;<i *ngIf="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" #dataTable>
+                                <thead>
+                                    <tr>
+                                        <th>SR</th>
+                                        <th>Order Id</th>
+                                        <th>Customer Name</th>
+                                        <th>Order Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Progress</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let Item of orderData; let i = index">
+                                        <th>{{i + 1}}</th>
+                                        <th>ORD - {{Item.Order_Id}}</th>
+                                        <th>{{Item.Name}}</th>
+                                        <th>{{Item.Order_Date_Format}}</th>
+                                        <th>{{currency}} {{Item.Amount}}</th>
+                                        <th>
+                                            <div *ngIf="Item.Status === '0'" class="badge badge-pill badge_warning">Pending</div>
+                                            <div *ngIf="Item.Status === '1'" class="badge badge-pill badge_success">Confirm</div>
+                                            <div *ngIf="Item.Status === '2'" class="badge badge-pill badge_danger">Cancel</div>
+                                        </th>
+                                        <th>
+                                             <div class="text-left" *ngIf="Item.Status === '0'">40%<span style="float: right;" class="hide-on-small-and-down">progress</span></div>
+                                            <div class="text-left" *ngIf="Item.Status === '1'">100%<span style="float: right;" class="hide-on-small-and-down">progress</span></div>
+                                            <div class="text-left" *ngIf="Item.Status === '2'">0%<span style="float: right;" class="hide-on-small-and-down">progress</span></div>
+                                            <div class="progress">
+                                                <div class="progress-bar  bg_warning" *ngIf="Item.Status === '0'" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"></div>
+                                                <div class="progress-bar  bg_success" *ngIf="Item.Status === '1'" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                                <div class="progress-bar  bg_danger" *ngIf="Item.Status === '2'" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                            </div>
+                                        </th>
+                                        <th class="text-center">
+                                            <span class="text-muted" style="cursor: pointer;">
+                                                <i class="fa fa-eye text_primary" (click)="openEditModal(Item)"></i>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

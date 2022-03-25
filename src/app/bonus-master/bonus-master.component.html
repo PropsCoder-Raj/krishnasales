@@ -1,0 +1,131 @@
+<ion-content>
+    <div class="app-main__inner" style="background: #f3f6f9;">
+        <div class="app-page-title" style="background: #f3f6f9;">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon" style="background: transparent;box-shadow: unset;">
+                        <i class="pe-7s-copy-file " style="color: #8950fc;">
+                        </i>
+                    </div>
+                    <div style="color: black;">Bonus Master
+                    </div>
+                </div>
+                <div class="page-title-actions">
+                    <button class="btn mr-3 btn_primary" (click)="importOpen()" *ngIf="!importS && !createBonusFlag && !edit_ID">Import CSV</button>
+                    <button class="btn mr-3 btn_primary" (click)="createBonusFlag = true" *ngIf="!createBonusFlag && !importS && !edit_ID">Create Bonus</button>
+                    <button class="btn btn-shadow mr-3 btn_warning" (click)="clearEditParam(); createBonusFlag = false; importS = false" *ngIf="createBonusFlag || importS || edit_ID">Back</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="importS">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add Bonus</h5>
+                        <form class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="position-relative form-group">
+                                        <label class="">Select File</label>
+                                        <ion-input type="file" accept=".csv" (change)="selectWebFile($event)"></ion-input>
+                                        <!-- <input name="file" type="file" #uploads (change)="selectWebFile($event)" accept=".csv" class="form-control"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="mt-1 btn btn_primary" (click)="uploadExcel()">Import CSV</button>
+                            <button class="mt-1 btn btn-default" style="background: transparent;" (click)="importS = false;">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card"  *ngIf="createBonusFlag || edit_ID != ''">
+                    <div class="card-body">
+                        <h5 class="card-title" *ngIf="!edit_ID">Add Bonus</h5>
+                        <h5 class="card-title" *ngIf="edit_ID">Edit Bonus</h5>
+                        <form class="">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label for="exampleSelect" class="">Select Item</label>
+                                        <select name="select" *ngIf="edit_ID == ''" [(ngModel)]="itemid" class="form-control">
+                                            <option disabled="">Select one</option>
+                                            <ng-container *ngFor="let item of itemdata">
+                                                <option value="{{item.Id}}">{{item.Item_Name}}</option>
+                                            </ng-container>
+                                        </select>
+                                        <select name="select" *ngIf="edit_ID != ''" disabled [(ngModel)]="itemid" class="form-control">
+                                            <option disabled="">Select one</option>
+                                            <ng-container *ngFor="let item of itemdata">
+                                                <option value="{{item.Id}}">{{item.Item_Name}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Quantity</label>
+                                        <input name="qty" [(ngModel)]="quanttity" type="number" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Discount (%)</label>
+                                        <input name="dis" [(ngModel)]="discount" type="number" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="mt-1 btn btn_primary" *ngIf="!edit_ID" (click)="addBonusMaster()">Submit</button>
+                            <button class="mt-1 btn btn_primary" *ngIf="edit_ID" (click)="updateBonusMaster()">Update</button>
+                            <button class="mt-1 btn btn-default" style="background: transparent;" (click)="createBonusFlag = false; clearEditParam()">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Bonus List &nbsp;&nbsp;&nbsp;<i *ngIf="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" #dataTable>
+                                <thead>
+                                    <tr>
+                                        <th>SR</th>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Discount</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of bonusdata; let i = index">
+                                        <th>{{i + 1}}</th>
+                                        <th>{{item.Item_Name}}</th>
+                                        <th>{{item.Bonus_Qty}}</th>
+                                        <th>{{item.Bonus_Discount}}%</th>
+                                        <th class="text-center">
+                                            <span class="text-muted" style="cursor: pointer;">
+                                                <i class="fa fa-pen" style="color: black;" (click)="setEditParam(item.Id, item.Bonus_Qty, item.Bonus_Discount)"></i>
+                                            </span>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <span class="text-muted" (click)="delete(item.Id)" style="cursor: pointer;">
+                                                <i class="fa fa-trash text_danger"></i>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

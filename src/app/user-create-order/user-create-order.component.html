@@ -1,0 +1,135 @@
+<ion-content>
+    <div class="app-main__inner" style="background: #f3f6f9;">
+        <div class="app-page-title" style="background: #f3f6f9;">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon" style="background: transparent;box-shadow: unset;">
+                        <i class="pe-7s-file " style="color: #8950fc;">
+                        </i>
+                    </div>
+                    <div style="color: black;">Create Order
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="container" style="position: -webkit-sticky;position: sticky;top: 6%;">
+                    <div class="main-card mb-3 white_card">
+                        <div class="card-header">My List
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive" *ngIf="cartList.length !== 0">
+                                <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.No.</th>
+                                            <th>Item Name</th>
+                                            <th>Qty</th>
+                                            <th>Unit Price</th>
+                                            <th>Discount</th>
+                                            <th>Vat</th>
+                                            <th>Availability</th>
+                                            <th>Grand Total</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="animate__animated animate__fadeInRightBig animate__faster" *ngFor="let cart of cartList; let i = index">
+                                            <th>{{i + 1}}</th>
+                                            <th>{{cart.data.Item_Name}}</th>
+                                            <th style="width: 15%;">
+                                                <input type="number" name="qty" [(ngModel)]="cart.quantity" (keyup)="onKey(cart.quantity, cart.data.Id, cart.data.Discount, cart.data.Vat, cart.data.Unit_Price, cart.data.Bonus_Qty, cart.data.Bonus_Discount)" class="form-control">
+                                            </th>
+                                            <th>{{cart.data.Unit_Price}}</th>
+                                            <th>{{cart.discount}} %</th>
+                                            <th>{{cart.data.Vat}} %</th>
+                                            <th>
+                                                <div *ngIf="cart.data.Stock_State === 'In Stock'" class="badge badge-pill badge_primary">In Stock</div>
+                                                <div *ngIf="cart.data.Stock_State === 'Out Of Stock'" class="badge badge-pill badge_danger">Out of Stock</div>
+                                            </th>
+                                            <th>
+                                                {{currency}} {{cart.grand_total}}
+                                            </th>
+                                            <th>
+                                                <span class="text-muted" style="cursor: pointer;">
+                                                    <i class="fa fa-close" (click)="removeItem(i)"></i>
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h4 *ngIf="cartList.length === 0"> Your shopping Cart is empty </h4>
+                        </div>
+                        <div class="main-card mb-3 white_card" *ngIf="cartList.length !== 0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="mr-sm-2">Remark (Optional)</label>
+                                        <input type="text" name="remark" [(ngModel)]="remark" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="main-card mb-3 white_card" *ngIf="cartList.length !== 0">
+                            <div class="card-header">
+                                Grand Total : {{currency}} {{totalAmount}}
+                            </div>
+                            <div class="card-body">
+                                <button class="btn btn_primary" (click)="create_order()">Place Order <span *ngIf="orderPlaceS">&nbsp;&nbsp;&nbsp;<i style="color: white;" class="fa fa-circle-o-notch fa-spin"></i></span></button>
+                            </div>
+                        </div> 
+                    </div>   
+                </div>    
+            </div>
+            <div class="col-md-6">
+                <div class="main-card mb-3 white_card" style="position: sticky;top: 6%;z-index: 1;">
+                    <div class="card-body">
+                        <div class="search-wrapper active" style="width: 100%;">
+                            <div class="input-holder" style="width: 100%;">
+                                <input type="text" class="search-input" placeholder="Search"
+                                    [(ngModel)]="searchtext" (keyup)="onKeySearch()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-card mb-3 white_card" style="box-shadow: unset;text-shadow: unset;">
+                    <div class="card-body">
+                        <h5 class="card-title">Item List &nbsp;&nbsp;&nbsp;<i *ngIf="loading" class="fa fa-circle-o-notch fa-spin"></i></h5>
+                        <div class="card-body">
+                            <ng-container *ngFor="let item of itemdata | filter:searchtext | slice:0:totalDisplayed">
+                                <div *ngIf="item.Stock_State === 'In Stock'" class="badge badge-pill badge_primary">In Stock</div>
+                                <div *ngIf="item.Stock_State === 'Out Of Stock'" class="badge badge-pill badge_danger">Out of Stock</div><br><br>
+                                <h5><b>{{item.Item_Name}}</b></h5>
+                                <form class="form-inline">
+                                    <div class="col-md-6 col-sm-12 form-group" style="font-size: large;padding: unset;"> Price {{currency}} {{item.Unit_Price}} </div>
+                                    <div class="col-md-6 col-sm-12 form-group">
+                                        <label class="mr-sm-2">Quantity</label>
+                                        <input type="number" name="qty" #qtyItem class="form-control">
+                                    </div>
+                                </form>
+
+                                <form class="form-inline" *ngIf="item.Bonus_Qty !== '0' && item.Bonus_Discount !== '0'" style="margin-bottom: 5px;">
+                                    <div class="col-md-6 col-sm-12 form-group" style="padding: unset;">
+                                        <button class="btn btn_warning" style="font-size: large;font-weight: 100;padding: 0 10px;">Offer : {{item.Bonus_Qty}} @ {{item.Bonus_Discount}} %</button>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 form-group">
+                                        <p>Discount: <b class="text_warning">{{item.Discount}}%</b> </p>
+                                    </div>
+                                </form>
+                                <p *ngIf="item.Bonus_Qty === '0' && item.Bonus_Discount === '0'">Discount: <b class="text_warning">{{item.Discount}}%</b> </p>
+                                <button class="btn btn_success" (click)="add_cart(item, qtyItem.value)">Add Item</button>
+                                <hr>
+                            </ng-container>
+
+                            <div *ngIf="!loading" style="text-align: center;cursor: pointer;" (click)="moreItems()">
+                                <b>More</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

@@ -1,0 +1,124 @@
+<ion-content>
+    <div class="app-main__inner" style="background: #f3f6f9;">
+        <div class="app-page-title" style="background: #f3f6f9;">
+            <div class="page-title-wrapper">
+                <div class="page-title-heading">
+                    <div class="page-title-icon" style="background: transparent;box-shadow: unset;">
+                        <i class="pe-7s-users " style="color: #8950fc;">
+                        </i>
+                    </div>
+                    <div style="color: black;">Customers
+                    </div>
+                </div>
+                <div class="page-title-actions">
+                    <button class="btn mr-3 btn_primary" (click)="createCustomerCardFlag = true" *ngIf="!createCustomerCardFlag && !edit_ID">Create Customer</button>
+                    <button class="btn mr-3 btn_warning" (click)="clearEditParam(); createCustomerCardFlag = false" *ngIf="createCustomerCardFlag || edit_ID">Back</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card" *ngIf="createCustomerCardFlag || edit_ID != ''">
+                    <div class="card-body">
+                        <h5 class="card-title" *ngIf="!edit_ID">Add Customer</h5>
+                        <h5 class="card-title" *ngIf="edit_ID">Edit Customer</h5>
+                        <form class="">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Customer Name</label>
+                                        <input name="customername" [(ngModel)]="Customer_Name" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Email</label>
+                                        <input name="email" [(ngModel)]="Email" type="email" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Mobile</label>
+                                        <input name="mmobile" [(ngModel)]="Mobile" type="number" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label for="exampleSelect" class="">Employee</label>
+                                        <select name="select" [(ngModel)]="Employee_Id" class="form-control">
+                                            <option disabled="">Select one</option>
+                                            <ng-container *ngFor="let item of empdata">
+                                                <option value="{{item.User_Id}}">{{item.Name}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="position-relative form-group">
+                                        <label class="">Passowrd</label>
+                                        <input name="password" [(ngModel)]="Password" type="password" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="mt-1 btn btn_primary" *ngIf="!edit_ID" (click)="addCustomer()">Submit</button>
+                            <button class="mt-1 btn btn_primary" *ngIf="edit_ID" (click)="updateCustomer()">Update</button>
+                            <button class="mt-1 btn btn-default" style="background: transparent;" (click)="createCustomerCardFlag = false; clearEditParam()">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card mb-3 white_card">
+                    <div class="card-header">Customers List &nbsp;&nbsp;&nbsp;<i *ngIf="loading" class="fa fa-circle-o-notch fa-spin"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" #dataTable>
+                                <thead>
+                                    <tr>
+                                        <th>SR</th>
+                                        <th>Customer Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Employee Name</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of customerdata; let i = index">
+                                        <th>{{ i + 1}}</th>
+                                        <th>{{item.Name}}</th>
+                                        <th>{{item.Email}}</th>
+                                        <th>{{item.Mobile}}</th>
+                                        <th>{{item.EmpName}}</th>
+                                        <th>
+                                            <div *ngIf="item.Is_Active === '0'" class="badge badge-pill badge-dark">&nbsp;</div>
+                                            <div *ngIf="item.Is_Active === '1'" class="badge badge-pill badge_success">&nbsp;</div>
+                                        </th>
+                                        <th class="text-center">
+                                            <span class="text-muted" style="cursor: pointer;">
+                                                <i class="fa fa-pen" style="color: black;" (click)="setEditParam(item.User_Id, item.Name, item.Email, item.Mobile, item.Password, item.Employee_Id)"></i>
+                                            </span>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <span class="text-muted" (click)="delete(item.User_Id)" style="cursor: pointer;">
+                                                <i class="fa fa-trash text_danger"></i>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

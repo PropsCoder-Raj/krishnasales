@@ -1,0 +1,84 @@
+<ion-header mode="ios" class="ion-no-border">
+    <ion-toolbar color="light" no-border>
+      <ion-buttons style="margin-right: 1rem;cursor: pointer;" slot="end" (click)="dismiss()" routerDirection="backward">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title>
+        Order Details
+      </ion-title>
+      <ion-buttons slot="start">
+
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+<ion-content>
+    <div class="white_card">
+        <div class="card-body">
+            <h2>Order ORD - {{Order_Id}}</h2>
+            <div>
+                <div class="card-title" *ngIf="currentUser.Role === '3' || currentUser.Role === '1'">Employee Name : <b style="color: black;">{{EmpName}}</b></div>
+                <div class="card-title" *ngIf="currentUser.Role === '2' || currentUser.Role === '1'">Customer Name : <b style="color: black;">{{Name}}</b></div>
+                <div class="card-title">Order Date : <b style="color: black;">{{Order_Date}}</b></div>
+                <div class="card-title">Status :
+                    <div *ngIf="Status === '0'" class="badge badge-pill badge_warning">Pending</div>
+                    <div *ngIf="Status === '1'" class="badge badge-pill badge_success">Confirm</div>
+                    <div *ngIf="Status === '2'" class="badge badge-pill badge_danger">Cancel</div>
+                </div>
+                <div class="card-title">Remark : 
+                    <b style="color: black;" *ngIf="Remark === ''">-</b>
+                    <b style="color: black;" *ngIf="Remark !== ''">{{Remark}}</b>
+                </div>
+            </div>
+            <hr>
+            <i *ngIf="loading1" class="fa fa-circle-o-notch fa-spin"></i>
+            <div class="table-responsive" id="itemList">
+                <table class="align-middle mb-0 table table-borderless table-striped table-hover" #dataTable1>
+                    <thead>
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Item No</th>
+                            <th>Item Name</th>
+                            <th>Qty</th>
+                            <th>Discount</th>
+                            <th>Vat</th>
+                            <th>Availability</th>
+                            <th>Unit Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of viewOrderList; let i = index">
+                            <th>{{i + 1}}</th>
+                            <th>{{item.Item_Id}}</th>
+                            <th>{{item.Item_Name}}</th>
+                            <th>{{item.Qty}}</th>
+                            <th>{{item.MainDiscount}} %</th>
+                            <th>{{item.Vat}} %</th>
+                            <th>
+                                <div *ngIf="item.Stock_State === 'In Stock'" class="badge badge-pill badge_primary">
+                                    In Stock
+                                </div>
+                                <div *ngIf="item.Stock_State === 'Out Of Stock'" class="badge badge-pill badge_danger">Out
+                                    of
+                                    Stock</div>
+                            </th>
+                            <th>{{currency}} {{item.Price}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 2rem;">
+                <h5 style="text-align: right;"><b> Grand Total : {{currency}} {{Amount}} </b></h5>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="button" *ngIf="!loading1 && Status === '1' && currentUser.Role === '2' || currentUser.Role === '1'" class="btn btn_primary" (click)="results(Order_Id)"
+                data-dismiss="modal">Copy to SAP</button>
+            <button type="button" *ngIf="Status === '0' && currentUser.Role === '2'" (click)="update_status(Order_Id, 1)" class="btn btn_success"
+                data-dismiss="modal">Confirm Order</button>
+            <button type="button" *ngIf="Status === '0' && currentUser.Role === '2'" (click)="update_status(Order_Id, 2)" class="btn btn_danger"
+                data-dismiss="modal">Cancel Order</button>
+            <button type="button" (click)="dismiss()" class="btn btn_default"
+                data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</ion-content>

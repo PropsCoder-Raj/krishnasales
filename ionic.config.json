@@ -1,0 +1,12 @@
+{
+  "defaultProject": "krishnasales",
+  "projects": {
+    "krishnasales": {
+      "name": "krishnasales",
+      "integrations": {
+        "capacitor": {}
+      },
+      "type": "angular"
+    }
+  }
+}

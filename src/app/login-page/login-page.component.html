@@ -1,0 +1,100 @@
+<ion-content>
+
+<div class="row">
+    <div class="col-md-4 col-sm-12" style="background-color: #0c2954;">
+
+    </div>
+    <div class="col-md-8 col-sm-12">
+        <div class="h-100 bg-animation">
+            <div class="d-flex h-100 justify-content-center align-items-center">
+              <div class="mx-auto app-login-box col-md-6">
+                <div class="app-logo-inverse mx-auto mb-3"></div>
+                <div class="w-100 mx-auto">
+                  <div class="modal-content" style="border: unset;">
+                    <div class="modal-body">
+                      <div class="h5 modal-title text-center">
+                        <h4 class="mt-2">
+                          <div style="text-align: left;"><img src="assets/login-logo.png" alt=""></div>
+                        </h4>
+                      </div>
+                      <div style="margin-top: 2rem;" role="group" aria-describedby="exampleInputGroup1__BV_description_"
+                        class="form-group">
+                        <div>
+                            <label style="font-weight: bold;color: black;">Email</label>
+                            <input type="email" placeholder="Enter email" required="required"
+                            aria-required="true" [(ngModel)]="email" class="form-control"
+                            aria-describedby="exampleInputGroup1__BV_description_">
+                        </div>
+                      </div>
+                      <div id="exampleInputGroup2" role="group" class="form-group">
+                        <div>
+                            <label style="font-weight: bold;color: black;">Password</label>
+                            <input type="password" placeholder="Enter password" required="required"
+                            aria-required="true" [(ngModel)]="password" class="form-control"></div>
+                      </div>
+                      <!-- <div class="custom-control custom-checkbox"><input id="exampleCheck" type="checkbox" name="check"
+                          autocomplete="off" class="custom-control-input" value="true"><label for="exampleCheck"
+                          class="custom-control-label">
+                          Keep me logged in
+                        </label>
+                      </div> -->
+                      <div class="divider"></div>
+                      
+                      <div>
+                        <button style="float: left;" type="button" class="btn btn_primary btn-lg" (click)="login()"><b>Login to Dashboard</b></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<!-- <div style="background-color: #0c2954;width: 30%;height: 100%;">
+</div>
+<div style="width: 70%;height: 100%;">
+    <div class="h-100 bg-animation" style="background: url('assets/banner-bg.jpg') no-repeat;background-size: cover;">
+        <div class="d-flex h-100 justify-content-center align-items-center">
+          <div class="mx-auto app-login-box col-md-8">
+            <div class="app-logo-inverse mx-auto mb-3"></div>
+            <div class="modal-dialog w-100 mx-auto">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div class="h5 modal-title text-center">
+                    <h4 class="mt-2">
+                      <div><b>Krishna Sales</b></div>
+                    </h4>
+                  </div>
+                  <div id="exampleInputGroup1" role="group" aria-describedby="exampleInputGroup1__BV_description_"
+                    class="form-group">
+                    <div><input id="exampleInput1" type="email" placeholder="Enter email..." required="required"
+                        aria-required="true" [(ngModel)]="email" class="form-control"
+                        aria-describedby="exampleInputGroup1__BV_description_">
+                    </div>
+                  </div>
+                  <div id="exampleInputGroup2" role="group" class="form-group">
+                    <div><input id="exampleInput2" type="password" placeholder="Enter password..." required="required"
+                        aria-required="true" [(ngModel)]="password" class="form-control"></div>
+                  </div>
+                  <div class="custom-control custom-checkbox"><input id="exampleCheck" type="checkbox" name="check"
+                      autocomplete="off" class="custom-control-input" value="true"><label for="exampleCheck"
+                      class="custom-control-label">
+                      Keep me logged in
+                    </label>
+                  </div>
+                  <div class="divider"></div>
+                </div>
+                <div class="modal-footer clearfix">
+                  <div class="float-right">
+                    <button type="button" class="btn btn_primary btn-lg" (click)="login()">Login to Dashboard</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div> -->
+</ion-content>
